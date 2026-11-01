@@ -1,6 +1,6 @@
 % This script is written for Lab 2 of ES3011 B26 by 
 % Aditi Bhattamishra, Kate Stahler, and Yael Whitson (Team 13).
-% The script is adapted using a demo script provided. 
+% The script is adapted using a demo script previously provided. 
 % Due 11/4/2026
 
 clear; clc;
