@@ -1,0 +1,6 @@
+# Ignore all files of this type
+*.asv
+*.fig
+*.png
+*.jpg
+*.jpeg
