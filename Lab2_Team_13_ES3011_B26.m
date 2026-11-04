@@ -87,10 +87,11 @@ dt = 0.05; %time step [s]
 t = 0:dt:T; %time array [t]
 
 % Create state space equation coefficient variables
-A = []; %fill in and delete this comment after
-B = []; %fill in and delete this comment after
-C = []; %fill in and delete this comment after
-D = []; %fill in and delete this comment after
+A = [0 1;
+    0 b/m]; 
+B = [0; 1/m]; 
+C = [1 0];
+D = 0;
 sys = ss(A,B,C,D);
 
 % Set input array
@@ -104,7 +105,7 @@ figure;
 plot (x3, y3);
 title("Exercise 3: Cruise-Control Car");
 xlabel("Time (seconds)");
-ylabel(""); %fill in and delete this comment after
+ylabel("Distance (m)"); %fill in and delete this comment after
 
 %% Motor Position (Q4)
 
