@@ -45,7 +45,7 @@ ylabel("Position (m)");
 % Create system properties and constants variables
 L = 5; %inductance [H]
 c = 300; %capacitance [F]
-R = 100; %resistance [Kohm]
+R = 100000; %resistance [Kohm]
 V = 300; %input voltage [V]
 
 % Set time array variables
@@ -62,7 +62,7 @@ D = 0;
 sys = ss(A,B,C,D);
 
 % Set input array
-u = F*ones(size(t));
+u = V*ones(size(t));
 
 % Run simulation
 [y2, x2] = lsim(sys,u,t);
@@ -88,14 +88,14 @@ t = 0:dt:T; %time array [t]
 
 % Create state space equation coefficient variables
 A = [0 1;
-    0 b/m]; 
+    0 -b/m]; 
 B = [0; 1/m]; 
-C = [1 0];
+C = [0 1];
 D = 0;
 sys = ss(A,B,C,D);
 
 % Set input array
-u = F*ones(size(t));
+u = U*ones(size(t));
 
 % Run simulation
 [y3, x3] = lsim(sys,u,t);
@@ -105,7 +105,7 @@ figure;
 plot (x3, y3);
 title("Exercise 3: Cruise-Control Car");
 xlabel("Time (seconds)");
-ylabel("Distance (m)"); %fill in and delete this comment after
+ylabel("Velocity (m/s)"); %fill in and delete this comment after
 
 %% Motor Position (Q4)
 
@@ -130,7 +130,7 @@ D = []; %fill in and delete this comment after
 sys = ss(A,B,C,D);
 
 % Set input array
-u = F*ones(size(t));
+u = V*ones(size(t));
 
 % Run simulation
 [y4, x4] = lsim(sys,u,t);
