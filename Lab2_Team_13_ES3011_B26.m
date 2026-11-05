@@ -35,6 +35,7 @@ u = F*ones(size(t));
 % Make figure (we do this manually to create four separate plots without
 % overwriting)
 figure;
+subplot(2, 2, 1);
 plot (x1, y1);
 title("Exercise 1: Mass-Spring-Damper System");
 xlabel("Time (seconds)");
@@ -68,8 +69,9 @@ u = V*ones(size(t));
 [y2, x2] = lsim(sys,u,t);
 
 % Make figure
-figure;
+subplot(2, 2, 2);
 plot (x2, y2);
+axis([-0.1 10.2 0 3.2*10^(-3)])
 title("Exercise 2: RLC Circuit");
 xlabel("Time (seconds)");
 ylabel("Current (A)");
@@ -101,11 +103,11 @@ u = U*ones(size(t));
 [y3, x3] = lsim(sys,u,t);
 
 % Make figure
-figure;
+subplot(2, 2, 3);
 plot (x3, y3);
 title("Exercise 3: Cruise-Control Car");
 xlabel("Time (seconds)");
-ylabel("Velocity (m/s)"); %fill in and delete this comment after
+ylabel("Velocity (m/s)");
 
 %% Motor Position (Q4)
 
@@ -123,10 +125,14 @@ dt = 0.05; %time step [s]
 t = 0:dt:T; %time array [t]
 
 % Create state space equation coefficient variables
-A = []; %fill in and delete this comment after
-B = []; %fill in and delete this comment after
-C = []; %fill in and delete this comment after
-D = []; %fill in and delete this comment after
+A = [0 1 0;
+    0 -b/J K/J;
+    0 -K/L -R/L]; %fill in and delete this comment after
+B = [0;
+    0;
+    1/L]; %fill in and delete this comment after
+C = [1 0 0]; %fill in and delete this comment after
+D = 0; %fill in and delete this comment after
 sys = ss(A,B,C,D);
 
 % Set input array
@@ -136,8 +142,8 @@ u = V*ones(size(t));
 [y4, x4] = lsim(sys,u,t);
 
 % Make figure
-figure;
+subplot(2, 2, 4);
 plot (x4, y4);
 title("Exercise 4: Motor Position");
 xlabel("Time (seconds)");
-ylabel(""); %fill in and delete this comment after
+ylabel("Rotational Position (radians)");
