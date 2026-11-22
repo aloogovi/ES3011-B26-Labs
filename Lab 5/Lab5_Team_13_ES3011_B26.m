@@ -5,6 +5,11 @@
 
 clear; clc;
 
+% Set time array variables for all simulations
+T = 120; %simulation time [s]
+dt = 0.05; %time step [s]
+t = 0:dt:T; %time array [t]
+
 %% Mass-Springer-Damper System (Q1)
 
 % Create system properties and constants variables
@@ -12,11 +17,6 @@ m = 5; %mass [Kg]
 k = 1.0; %spring constant [N/m]
 b = 0.5; %damping constant [N*s/m]
 F = 2; %input force [N]
-
-% Set time array variables
-T = 20; %simulation time [s]
-dt = 0.05; %time step [s]
-t = 0:dt:T; %time array [t]
 
 % Create transfer function
 num = 1; %numerator
@@ -86,11 +86,6 @@ c = 300; %capacitance [F]
 R = 100000; %resistance [ohm]
 V = 300; %input voltage [V]
 
-% Set time array variables
-T = 10; %simulation time [s]
-dt = 0.05; %time step [s]
-t = 0:dt:T; %time array [t]
-
 % Create transfer function
 num = 1; %numerator
 denom = [L R 1/c]; %denominator
@@ -157,11 +152,6 @@ hold off;
 m = 1500; %vehicle mass [kg]
 b = 50; %damping coefficient [N*s/m]
 U = 1500; %input force [N]
-
-% Set time array variables
-T = 100; %simulation time [s]
-dt = 0.05; %time step [s]
-t = 0:dt:T; %time array [t]
 
 % Create transfer function
 num = 1; %numerator
@@ -232,11 +222,6 @@ K = 0.025; %electric force/motor torque coefficient [V/rad/sec]
 R = 5; %resistance [Ohm]
 L = 3*10^(-6); %inductance [H]
 V = 100; %input voltage [V]
-
-% Set time array variables
-T = 10; %simulation time [s]
-dt = 0.05; %time step [s]
-t = 0:dt:T; %time array [t]
 
 % Create transfer function
 num = k; %numerator
