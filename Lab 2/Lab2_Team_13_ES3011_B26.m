@@ -5,7 +5,7 @@
 
 clear; clc;
 
-%% Mass-Springer-Damper System (Q1)
+%% Mass-Spring-Damper System (Q1)
 
 % Create system properties and constants variables
 m = 5; %mass [Kg]
@@ -45,8 +45,8 @@ ylabel("Position (m)");
 
 % Create system properties and constants variables
 L = 5; %inductance [H]
-c = 300; %capacitance [F]
-R = 100000; %resistance [Kohm]
+c = 300; %capacitance [uF]
+R = 100000; %resistance [ohm]
 V = 300; %input voltage [V]
 
 % Set time array variables
