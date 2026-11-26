@@ -10,6 +10,9 @@ T = 120; %simulation time [s]
 dt = 0.05; %time step [s]
 t = 0:dt:T; %time array [t]
 
+% Used for finding the ramp response using the step response
+s = tf('s');
+
 %% Mass-Spring-Damper System (Q1)
 
 % Create system properties and constants variables
@@ -18,43 +21,34 @@ k = 1.0; %spring constant [N/m]
 b = 0.5; %damping constant [N*s/m]
 F = 2; %input force [N]
 
-u = F*ones(size(t));
-
 % Create transfer function
 num = 1; %numerator
 denom = [m b k]; %denominator
-sys = tf(num, denom); %create transfer function
+sys = F*tf(num, denom); %create transfer function scaled for input
 
-%Run step response sim
-[y_step, t_step] = step(sys, t, Amplitude=F);
-transient = stepinfo(y_step, t_step, 'SettlingTimeThreshold', 0.02, 'RiseTimeLimits', [0 1]); %collect transient response info
-
-%Run ramp response sim
-y_ramp = lsim(sys, u, t);
-
-%Run impulse response sim
-[y_imp, t_imp] = impulse(sys, t, Amplitude=F); %impulse response
+%Gather transient response data
+transient = stepinfo(sys, 'SettlingTimeThreshold', 0.02, 'RiseTimeLimits', [0 1]); %collect transient response info
 
 % Create figure with all three plots 
 figure;
 tiledlayout(2,2);
 
 nexttile;
-plot(t, y_ramp, 'b', 'LineWidth', 1.5); %plot ramp response
+stepplot(sys/s, 'b', 'LineWidth', 1.5); %plot ramp response
 title("Mass-Spring-Damper System: Ramp Response w/ F=2N");
 xlabel("Time (s)");
 ylabel("Amplitude y(t)");
 grid on;
 
 nexttile;
-plot(t_imp, y_imp, 'b', 'LineWidth', 1.5); %plot impulse response
+impulseplot(sys, 'b', 'LineWidth', 1.5); %plot impulse response
 title("Mass-Spring-Damper System: Impulse Response w/ F=2N");
 xlabel("Time (s)");
 ylabel("Amplitude y(t)");
 grid on;
 
 nexttile;
-plot(t_step, y_step, 'b', 'LineWidth', 1.5); %plot step response 
+stepplot(sys, 'b', 'LineWidth', 1.5);
 hold on;
 plot(transient.PeakTime, transient.Peak, 'Marker', 'square', 'MarkerFaceColor', 'r', 'MarkerSize', 8, 'Color', 'r'); %plot peak time + peak value which is final value + overshoot
 xline(transient.RiseTime, "Color", 'g', 'LineStyle', '--', 'LineWidth', 1.5); %plot rise time as a vertical line
@@ -87,43 +81,34 @@ c = 300 * 10^(-6); %capacitance [F]
 R = 100; %resistance [ohm]
 V = 300; %input voltage [V]
 
-u = V*ones(size(t));
-
 % Create transfer function
 num = 1; %numerator
 denom = [L R 1/c]; %denominator
-sys = tf(num, denom); %create transfer function
+sys = V*tf(num, denom); %create transfer function scaled for input
 
-%Run step response sim
-[y_step, t_step] = step(sys, t, Amplitude=V);
-transient = stepinfo(y_step, t_step, 'SettlingTimeThreshold', 0.02, 'RiseTimeLimits', [0 1]); %collect transient response info
-
-%Run ramp response sim
-y_ramp = lsim(sys, u, t);
-
-%Run impulse response sim
-[y_imp, t_imp] = impulse(sys, t, Amplitude=V); %impulse response
+%Gather transient response data
+transient = stepinfo(sys, 'SettlingTimeThreshold', 0.02, 'RiseTimeLimits', [0 1]); %collect transient response info
 
 % Create figure with all three plots 
 figure;
 tiledlayout(2,2);
 
 nexttile;
-plot(t, y_ramp, 'b', 'LineWidth', 1.5); %plot ramp response
+stepplot(sys/s, 'b', 'LineWidth', 1.5); %plot ramp response
 title("RLC Circuit: Ramp Response w/ V=300V");
 xlabel("Time (s)");
 ylabel("Amplitude y(t)");
 grid on;
 
 nexttile;
-plot(t_imp, y_imp, 'b', 'LineWidth', 1.5); %plot impulse response
+impulseplot(sys, 'b', 'LineWidth', 1.5); %plot impulse response
 title("RLC Circuit: Impulse Response w/ V=300V");
 xlabel("Time (s)");
 ylabel("Amplitude y(t)");
 grid on;
 
 nexttile;
-plot(t_step, y_step, 'b', 'LineWidth', 1.5); %plot step response 
+stepplot(sys, 'b', 'LineWidth', 1.5); %plot step response 
 hold on;
 plot(transient.PeakTime, transient.Peak, 'Marker', 'square', 'MarkerFaceColor', 'r', 'MarkerSize', 8, 'Color', 'r'); %plot peak time + peak value which is final value + overshoot
 xline(transient.RiseTime, "Color", 'g', 'LineStyle', '--', 'LineWidth', 1.5); %plot rise time as a vertical line
@@ -155,43 +140,34 @@ m = 1500; %vehicle mass [kg]
 b = 50; %damping coefficient [N*s/m]
 U = 1500; %input force [N]
 
-u = U*ones(size(t));
-
 % Create transfer function
 num = 1; %numerator
 denom = [m b]; %denominator
-sys = tf(num, denom); %create transfer function
+sys = U*tf(num, denom); %create transfer function scaled for input
 
-%Run step response sim
-[y_step, t_step] = step(sys, t, Amplitude=U);
-transient = stepinfo(y_step, t_step, 'SettlingTimeThreshold', 0.02, 'RiseTimeLimits', [0 1]); %collect transient response info
-
-%Run ramp response sim
-y_ramp = lsim(sys, u, t);
-
-%Run impulse response sim
-[y_imp, t_imp] = impulse(sys, t, Amplitude=U); %impulse response
+%Gather transient response data
+transient = stepinfo(sys, 'SettlingTimeThreshold', 0.02, 'RiseTimeLimits', [0 1]); %collect transient response info
 
 % Create figure with all three plots 
 figure;
 tiledlayout(2,2);
 
 nexttile;
-plot(t, y_ramp, 'b', 'LineWidth', 1.5); %plot ramp response
+stepplot(sys, 'b', 'LineWidth', 1.5); %plot ramp response
 title("Car Cruise-Control: Ramp Response w/ U=1500N");
 xlabel("Time (s)");
 ylabel("Amplitude y(t)");
 grid on;
 
 nexttile;
-plot(t_imp, y_imp, 'b', 'LineWidth', 1.5); %plot impulse response
+impulseplot(sys, 'b', 'LineWidth', 1.5); %plot impulse response
 title("Car Cruise-Control: Impulse Response w/ U=1500N");
 xlabel("Time (s)");
 ylabel("Amplitude y(t)");
 grid on;
 
 nexttile;
-plot(t_step, y_step, 'b', 'LineWidth', 1.5); %plot step response 
+stepplot(sys, 'b', 'LineWidth', 1.5); %plot step response 
 hold on;
 plot(transient.PeakTime, transient.Peak, 'Marker', 'square', 'MarkerFaceColor', 'r', 'MarkerSize', 8, 'Color', 'r'); %plot peak time + peak value which is final value + overshoot
 xline(transient.RiseTime, "Color", 'g', 'LineStyle', '--', 'LineWidth', 1.5); %plot rise time as a vertical line
@@ -226,43 +202,34 @@ R = 5; %resistance [Ohm]
 L = 3*10^(-6); %inductance [H]
 V = 100; %input voltage [V]
 
-u = V*ones(size(t));
-
 % Create transfer function
 num = k; %numerator
 denom = [J*L (J*R+L*b) (R*b + K^2) 0]; %denominator
-sys = tf(num, denom); %create transfer function
+sys = V*tf(num, denom); %create transfer function scaled for input
 
-%Run step response sim
-[y_step, t_step] = step(sys, t, Amplitude=V);
-transient = stepinfo(y_step, t_step, 'SettlingTimeThreshold', 0.02, 'RiseTimeLimits', [0 1]); %collect transient response info
-
-%Run ramp response sim
-y_ramp = lsim(sys, u, t);
-
-%Run impulse response sim
-[y_imp, t_imp] = impulse(sys, t, Amplitude=V); %impulse response
+%Gather transient response data
+transient = stepinfo(sys, 'SettlingTimeThreshold', 0.02, 'RiseTimeLimits', [0 1]); %collect transient response info
 
 % Create figure with all three plots 
 figure;
 tiledlayout(2,2);
 
 nexttile;
-plot(t, y_ramp, 'b', 'LineWidth', 1.5); %plot ramp response
+stepplot(sys/s, 'b', 'LineWidth', 1.5); %plot ramp response
 title("Motor Position: Ramp Response w/ V=100V");
 xlabel("Time (s)");
 ylabel("Amplitude y(t)");
 grid on;
 
 nexttile;
-plot(t_imp, y_imp, 'b', 'LineWidth', 1.5); %plot impulse response
+impulseplot(sys, 'b', 'LineWidth', 1.5); %plot impulse response
 title("Motor Position: Impulse Response w/ V=100V");
 xlabel("Time (s)");
 ylabel("Amplitude y(t)");
 grid on;
 
 nexttile;
-plot(t_step, y_step, 'b', 'LineWidth', 1.5); %plot step response 
+stepplot(sys, 'b', 'LineWidth', 1.5); %plot step response 
 hold on;
 plot(transient.PeakTime, transient.Peak, 'Marker', 'square', 'MarkerFaceColor', 'r', 'MarkerSize', 8, 'Color', 'r'); %plot peak time + peak value which is final value + overshoot
 xline(transient.RiseTime, "Color", 'g', 'LineStyle', '--', 'LineWidth', 1.5); %plot rise time as a vertical line
